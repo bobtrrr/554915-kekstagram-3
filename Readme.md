@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [bob-TPAKTOPUCT!](https://up.htmlacademy.ru/javascript-individual/3/user/554915).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Хапов](https://htmlacademy.ru/profile/id118459).
 
 ---
 
