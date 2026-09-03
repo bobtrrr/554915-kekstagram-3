@@ -12,7 +12,19 @@ const commentsCountTotal = commentsCount.querySelector('.social__comment-total-c
 const loadMoreButton = modal.querySelector('.comments-loader');
 
 
-const getCommentsCount = (comments) => comments.length;
+const COMMENTS_COUNT_PER_STEP = 5;
+let renderedCommentsCount = 0;
+
+let slicedComments = null;
+
+const isShowLoadMoreButton = () => slicedComments.length > COMMENTS_COUNT_PER_STEP;
+const isHideLoadMoreButton = () => renderedCommentsCount >= slicedComments.length;
+
+const hideLoadMoreButton = () => loadMoreButton.classList.add('hidden');
+const showLoadMoreButton = () => loadMoreButton.classList.remove('hidden');
+
+const getCommentsCount = () => slicedComments.length;
+const updateCommentsCount = (shown) => (commentsCountShown.textContent = shown);
 
 const getCommentTemplate = ({avatar, message, name}) => (
   `<li class="social__comment">
@@ -25,56 +37,69 @@ const getCommentTemplate = ({avatar, message, name}) => (
   </li>`
 );
 
-const createComments = (comments) => (
-  comments
-    .map((comment) => getCommentTemplate(comment))
-    .join('')
-);
-
-const renderComments = (comments) => {
-  const commentItems = createComments(comments);
+const renderComments = (from, to) => {
+  const commentItems =
+    slicedComments
+      .slice(from, to)
+      .map((comment) => getCommentTemplate(comment))
+      .join('');
 
   commentsList.insertAdjacentHTML(RENDER_POSITION.BEFOREEND, commentItems);
 };
 
-const hideCommentsCountPanel = () => {
-  commentsCount.classList.add('hidden');
-  loadMoreButton.classList.add('hidden');
+const clearComments = () => (commentsList.innerHTML = '');
+
+const loadMoreButtonHandler = () => {
+  const nextCommentsCount = Math.min(slicedComments.length, renderedCommentsCount + COMMENTS_COUNT_PER_STEP);
+  renderComments(renderedCommentsCount, nextCommentsCount);
+
+  renderedCommentsCount = nextCommentsCount;
+
+  updateCommentsCount(renderedCommentsCount);
+
+  if (isHideLoadMoreButton()) {
+    hideLoadMoreButton();
+  }
 };
 
-const showCommentsCountPanel = () => {
-  commentsCount.classList.add('hidden');
-  loadMoreButton.classList.add('hidden');
+const displayCommentsCount = (shown) => {
+  commentsCountShown.textContent = shown;
+  commentsCountTotal.textContent = getCommentsCount();
 };
 
 const fillFullPhoto = ({url, likes, description, comments}) => {
+  slicedComments = comments.slice();
+
+  const nextCommentsCount = Math.min(slicedComments.length, COMMENTS_COUNT_PER_STEP);
+
   photoImage.src = url;
   photoImage.alt = description;
   photoDescription.textContent = description;
   likesCount.textContent = likes;
-  commentsCountTotal.textContent = getCommentsCount(comments);
 
-  hideCommentsCountPanel();
+  displayCommentsCount(nextCommentsCount);
 
-  renderComments(comments);
+  renderComments(0, nextCommentsCount);
+  renderedCommentsCount = nextCommentsCount;
+
+  loadMoreButton.addEventListener('click', loadMoreButtonHandler);
+
+  if (isShowLoadMoreButton()) {
+    showLoadMoreButton();
+  }
 };
 
 const clearFullPhoto = () => {
-  commentsCount.classList.add('hidden');
-  loadMoreButton.classList.add('hidden');
-
   photoImage.src = '';
   photoImage.alt = '';
   photoDescription.textContent = '';
   likesCount.textContent = '';
   commentsCountTotal.textContent = '';
 
-  commentsCountShown.textContent = '';
-  commentsCountTotal.textContent = '';
-
   commentsList.innerHTML = '';
 
-  showCommentsCountPanel();
+  clearComments();
+  hideLoadMoreButton();
 };
 
 export {fillFullPhoto, clearFullPhoto};
