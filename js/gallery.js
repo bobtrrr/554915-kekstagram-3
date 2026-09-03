@@ -4,6 +4,7 @@ import { openModal } from './modal.js';
 
 const photoList = document.querySelector('.pictures');
 
+
 const cards = createCards();
 
 const openModalClickHandler = (evt) => {
