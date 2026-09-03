@@ -1,6 +1,6 @@
 import {createCards} from './data.js';
+import { renderPhotos } from './photos.js';
 
 const cards = createCards();
 
-// eslint-disable-next-line no-console
-console.log(cards);
+renderPhotos(cards);

@@ -33,13 +33,27 @@ const NAMES = [
 ];
 
 const PHOTO_CARD_COUNT = 25;
-const USER_COMMENT_COUNT = 30;
+
+const COMMENTS_LIMIT = {
+  MIN: 0,
+  MAX: 30,
+};
+
+const LIKES_LIMIT = {
+  MIN: 20,
+  MAX: 150,
+};
+
+const AVATAR = {
+  MIN: 1,
+  MAX: 6,
+};
 
 const getUserName = () => getRandomArrayElement(NAMES);
-const getLikesCount = () => getRandomInteger(20, 150);
+const getLikesCount = () => getRandomInteger(LIKES_LIMIT.MIN, LIKES_LIMIT.MAX);
 const getDescription = () => getRandomArrayElement(DESCRIPTIONS);
 
-const getUserAvatar = () => `img/avatar-${getRandomInteger(1, 6)}.svg`;
+const getUserAvatar = () => `img/avatar-${getRandomInteger(AVATAR.MIN, AVATAR.MAX)}.svg`;
 const getUserComment = () => Math.random() < 0.5 ? `${getRandomArrayElement(COMMENTS)}` : `${getRandomArrayElement(COMMENTS)} ${getRandomArrayElement(COMMENTS)}`;
 const createCounter = () => {
   let count = 1;
@@ -56,7 +70,7 @@ const createComment = () => ({
   name: getUserName(),
 });
 
-const createComments = () => Array.from({length: getRandomInteger(0, USER_COMMENT_COUNT)}, createComment);
+const createComments = () => Array.from({length: getRandomInteger(COMMENTS_LIMIT.MIN, COMMENTS_LIMIT.MAX)}, createComment);
 
 const createCard = () => ({
   id: nanoid(),
