@@ -1,3 +1,7 @@
+const RENDER_POSITION = {
+  BEFOREEND: 'beforeend',
+};
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -8,4 +12,6 @@ const getRandomInteger = (a, b) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-export {getRandomInteger, getRandomArrayElement};
+const isEscKeydown = (evt) => evt.key === 'Escape';
+
+export {getRandomInteger, getRandomArrayElement, RENDER_POSITION, isEscKeydown};
