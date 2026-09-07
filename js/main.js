@@ -1,3 +1,3 @@
 import './gallery.js';
 import './upload.js';
-import './scale.js';
+// import './scale.js';

@@ -1,3 +1,22 @@
+const VALIDATOR_MODE = {
+  SUBMIT: false,
+  CHANGE: true,
+};
+
+const VALIDATOR_PRIORITY = {
+  LOW: 1,
+  HIGH: 100,
+};
+
+const VALIDATOR_HALT_BEHAVIOR = {
+  CONTINUE: false,
+  STOP: true,
+};
+
+const MAX_COMMENT_LENGTH = 140;
+const MAX_HASHTAGS = 5;
+const HASHTAG_PATTERN = /^#[a-zа-яё0-9]{1,19}$/i;
+
 const EFFECT_TYPE = {
   NONE: 'none',
 };
@@ -41,4 +60,15 @@ const EFFECT_CONFIGS = {
   }
 };
 
-export {EFFECT_TYPE, UNIT, EFFECT_CONFIGS};
+export {
+  EFFECT_TYPE,
+  UNIT,
+  EFFECT_CONFIGS,
+  VALIDATOR_MODE,
+  VALIDATOR_PRIORITY,
+  VALIDATOR_HALT_BEHAVIOR,
+  MAX_COMMENT_LENGTH,
+  MAX_HASHTAGS,
+  HASHTAG_PATTERN
+};
+
