@@ -1,4 +1,5 @@
 import { isEscKeydown } from './util';
+import { resetScale } from './scale.js';
 import '../vendor/pristine/pristine.min.js'; // Просто подключаем файл
 
 const uploadForm = document.querySelector('.img-upload__form');
@@ -96,6 +97,7 @@ const closePopup = () => {
   document.body.classList.remove('modal-open');
 
   clearUploadInput();
+  resetScale();
 
   document.removeEventListener('keydown', documentEscKeydownHandler);
 };
