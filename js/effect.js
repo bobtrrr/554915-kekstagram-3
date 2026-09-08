@@ -25,6 +25,7 @@ const options = {
 
 const getSliderValue = () => sliderElement.noUiSlider.get();
 const updateInputValue = (value) => (sliderInput.value = value);
+const updatePreviewImageStyles = (value) => (previewImage.style.filter = value);
 
 const showSliderContainer = () => sliderContainer.classList.remove('hidden');
 const hideSliderContainer = () => sliderContainer.classList.add('hidden');
@@ -53,7 +54,7 @@ const effectsListChangeHandler = (evt) => {
 
   if (currentEffect === EFFECT_TYPE.NONE) {
     hideSliderContainer();
-    previewImage.style.filter = EFFECT_TYPE.NONE;
+    updatePreviewImageStyles(EFFECT_TYPE.NONE);
   } else {
     showSliderContainer();
     updateSliderOptions(config);
@@ -63,7 +64,7 @@ const effectsListChangeHandler = (evt) => {
 const resetEffects = () => {
   hideSliderContainer();
   currentEffect = EFFECT_TYPE.NONE;
-  previewImage.style.filter = EFFECT_TYPE.NONE;
+  updatePreviewImageStyles(EFFECT_TYPE.NONE);
 };
 
 const initEffects = () => {
@@ -78,9 +79,9 @@ const initEffects = () => {
     const { filter, unit } = EFFECT_CONFIGS[currentEffect];
 
     if (currentEffect === EFFECT_TYPE.NONE) {
-      previewImage.style.filter = EFFECT_TYPE.NONE;
+      updatePreviewImageStyles(EFFECT_TYPE.NONE);
     } else {
-      previewImage.style.filter = `${filter}(${sliderValue}${unit})`;
+      updatePreviewImageStyles(`${filter}(${sliderValue}${unit})`);
     }
   });
 
