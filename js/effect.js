@@ -65,6 +65,7 @@ const resetEffects = () => {
   hideSliderContainer();
   currentEffect = EFFECT_TYPE.NONE;
   updatePreviewImageStyles(EFFECT_TYPE.NONE);
+  sliderElement.noUiSlider.destroy();
 };
 
 const initEffects = () => {

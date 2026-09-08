@@ -10,8 +10,6 @@ const uploadPopup = uploadForm.querySelector('.img-upload__overlay');
 const commentInput = uploadForm.querySelector('.text__description');
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 
-initEffects();
-
 const clearUploadInput = () => (openUploadButton.vlaue = '');
 
 const openPopup = () => {
@@ -19,6 +17,7 @@ const openPopup = () => {
   document.body.classList.add('modal-open');
 
   initScale();
+  initEffects();
 
   document.addEventListener('keydown', documentEscKeydownHandler);
 };
