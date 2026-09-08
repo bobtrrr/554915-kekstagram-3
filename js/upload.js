@@ -1,5 +1,5 @@
 import { isEscKeydown } from './util';
-import { resetScale } from './scale.js';
+import { resetScale, initScale } from './scale.js';
 import { initEffects, resetEffects } from './effect.js';
 import { resetValidation } from './validate.js';
 
@@ -17,6 +17,8 @@ const clearUploadInput = () => (openUploadButton.vlaue = '');
 const openPopup = () => {
   uploadPopup.classList.remove('hidden');
   document.body.classList.add('modal-open');
+
+  initScale();
 
   document.addEventListener('keydown', documentEscKeydownHandler);
 };
