@@ -1,4 +1,4 @@
-import { fillFullPhoto, clearFullPhoto } from './full-photo';
+import { initFullPhoto, resetFullPhoto } from './full-photo';
 import { isEscKeydown } from './util';
 
 const modal = document.querySelector('.big-picture');
@@ -8,7 +8,7 @@ const openModal = (photo) => {
   modal.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  fillFullPhoto(photo);
+  initFullPhoto(photo);
 
   window.addEventListener('keydown', documentKeydownHandler);
 };
@@ -17,7 +17,7 @@ const closeModal = () => {
   modal.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
-  clearFullPhoto();
+  resetFullPhoto();
 
   window.removeEventListener('keydown', documentKeydownHandler);
 };
