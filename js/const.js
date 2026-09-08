@@ -60,6 +60,10 @@ const EFFECT_CONFIGS = {
   }
 };
 
+const RENDER_POSITION = {
+  BEFOREEND: 'beforeend',
+};
+
 export {
   EFFECT_TYPE,
   UNIT,
@@ -69,6 +73,7 @@ export {
   VALIDATOR_HALT_BEHAVIOR,
   MAX_COMMENT_LENGTH,
   MAX_HASHTAGS,
-  HASHTAG_PATTERN
+  HASHTAG_PATTERN,
+  RENDER_POSITION
 };
 

@@ -1,6 +1,8 @@
-import { RENDER_POSITION } from './util';
+import { RENDER_POSITION } from './const';
+import { isEscKeydown } from './util';
 
 const modal = document.querySelector('.big-picture');
+const closeModalButton = modal.querySelector('.big-picture__cancel');
 const photoImage = modal.querySelector('.big-picture__img img');
 const photoDescription = modal.querySelector('.social__caption');
 const likesCount = modal.querySelector('.likes-count');
@@ -75,6 +77,7 @@ const renderFullPhoto = (url, description) => {
 const renderLikesCount = (likes) => {
   likesCount.textContent = likes;
 };
+
 const initFullPhoto = ({url, likes, description, comments}) => {
   slicedComments = comments.slice();
 
@@ -107,4 +110,31 @@ const resetFullPhoto = () => {
   loadMoreButton.removeEventListener('click', loadMoreButtonHandler);
 };
 
-export {initFullPhoto, resetFullPhoto};
+const openModal = (photo) => {
+  modal.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+
+  initFullPhoto(photo);
+
+  window.addEventListener('keydown', documentKeydownHandler);
+};
+
+const closeModal = () => {
+  modal.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+
+  resetFullPhoto();
+
+  window.removeEventListener('keydown', documentKeydownHandler);
+};
+
+function documentKeydownHandler (evt) {
+  if (isEscKeydown(evt)) {
+    closeModal();
+  }
+}
+
+closeModalButton.addEventListener('click', closeModal);
+
+export {openModal};
+

@@ -10,7 +10,7 @@ const uploadPopup = uploadForm.querySelector('.img-upload__overlay');
 const commentInput = uploadForm.querySelector('.text__description');
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 
-const clearUploadInput = () => (openUploadButton.vlaue = '');
+const clearUploadInput = () => (openUploadButton.value = '');
 
 const openPopup = () => {
   uploadPopup.classList.remove('hidden');

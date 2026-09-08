@@ -1,9 +1,8 @@
 import {createCards} from './data.js';
 import { renderPhotos } from './photos.js';
-import { openModal } from './modal.js';
+import { openModal } from './full-photo.js';
 
 const photoList = document.querySelector('.pictures');
-
 
 const cards = createCards();
 
