@@ -1,6 +1,8 @@
-import { RENDER_POSITION } from './util';
+import { RENDER_POSITION } from './const';
+import { isEscKeydown } from './util';
 
 const modal = document.querySelector('.big-picture');
+const closeModalButton = modal.querySelector('.big-picture__cancel');
 const photoImage = modal.querySelector('.big-picture__img img');
 const photoDescription = modal.querySelector('.social__caption');
 const likesCount = modal.querySelector('.likes-count');
@@ -10,7 +12,6 @@ const commentsCount = modal.querySelector('.social__comment-count');
 const commentsCountShown = commentsCount.querySelector('.social__comment-shown-count');
 const commentsCountTotal = commentsCount.querySelector('.social__comment-total-count');
 const loadMoreButton = modal.querySelector('.comments-loader');
-
 
 const COMMENTS_COUNT_PER_STEP = 5;
 let renderedCommentsCount = 0;
@@ -24,7 +25,7 @@ const hideLoadMoreButton = () => loadMoreButton.classList.add('hidden');
 const showLoadMoreButton = () => loadMoreButton.classList.remove('hidden');
 
 const getCommentsCount = () => slicedComments.length;
-const updateCommentsCount = (shown) => (commentsCountShown.textContent = shown);
+const updateShownCommentsCount = (count) => (commentsCountShown.textContent = count);
 
 const getCommentTemplate = ({avatar, message, name}) => (
   `<li class="social__comment">
@@ -47,7 +48,7 @@ const renderComments = (from, to) => {
   commentsList.insertAdjacentHTML(RENDER_POSITION.BEFOREEND, commentItems);
 };
 
-const clearComments = () => (commentsList.innerHTML = '');
+const clearCommentsList = () => (commentsList.innerHTML = '');
 
 const loadMoreButtonHandler = () => {
   const nextCommentsCount = Math.min(slicedComments.length, renderedCommentsCount + COMMENTS_COUNT_PER_STEP);
@@ -55,29 +56,36 @@ const loadMoreButtonHandler = () => {
 
   renderedCommentsCount = nextCommentsCount;
 
-  updateCommentsCount(renderedCommentsCount);
+  updateShownCommentsCount(renderedCommentsCount);
 
   if (isHideLoadMoreButton()) {
     hideLoadMoreButton();
   }
 };
 
-const displayCommentsCount = (shown) => {
-  commentsCountShown.textContent = shown;
+const renderCommentsCount = (shown) => {
+  updateShownCommentsCount(shown);
   commentsCountTotal.textContent = getCommentsCount();
 };
 
-const fillFullPhoto = ({url, likes, description, comments}) => {
+const renderFullPhoto = (url, description) => {
+  photoImage.src = url;
+  photoImage.alt = description;
+  photoDescription.textContent = description;
+};
+
+const renderLikesCount = (likes) => {
+  likesCount.textContent = likes;
+};
+
+const initFullPhoto = ({url, likes, description, comments}) => {
   slicedComments = comments.slice();
 
   const nextCommentsCount = Math.min(slicedComments.length, COMMENTS_COUNT_PER_STEP);
 
-  photoImage.src = url;
-  photoImage.alt = description;
-  photoDescription.textContent = description;
-  likesCount.textContent = likes;
-
-  displayCommentsCount(nextCommentsCount);
+  renderFullPhoto(url, description);
+  renderLikesCount(likes);
+  renderCommentsCount(nextCommentsCount);
 
   renderComments(0, nextCommentsCount);
   renderedCommentsCount = nextCommentsCount;
@@ -89,17 +97,44 @@ const fillFullPhoto = ({url, likes, description, comments}) => {
   }
 };
 
-const clearFullPhoto = () => {
+const resetFullPhoto = () => {
   photoImage.src = '';
   photoImage.alt = '';
   photoDescription.textContent = '';
   likesCount.textContent = '';
   commentsCountTotal.textContent = '';
 
-  commentsList.innerHTML = '';
-
-  clearComments();
+  clearCommentsList();
   hideLoadMoreButton();
+
+  loadMoreButton.removeEventListener('click', loadMoreButtonHandler);
 };
 
-export {fillFullPhoto, clearFullPhoto};
+const openModal = (photo) => {
+  modal.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+
+  initFullPhoto(photo);
+
+  window.addEventListener('keydown', documentKeydownHandler);
+};
+
+const closeModal = () => {
+  modal.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+
+  resetFullPhoto();
+
+  window.removeEventListener('keydown', documentKeydownHandler);
+};
+
+function documentKeydownHandler (evt) {
+  if (isEscKeydown(evt)) {
+    closeModal();
+  }
+}
+
+closeModalButton.addEventListener('click', closeModal);
+
+export {openModal};
+
