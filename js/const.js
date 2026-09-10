@@ -1,3 +1,5 @@
+const ALERT_SHOW_TIME = 5000;
+
 const VALIDATOR_MODE = {
   SUBMIT: false,
   CHANGE: true,
@@ -64,6 +66,23 @@ const RENDER_POSITION = {
   BEFOREEND: 'beforeend',
 };
 
+const ALERT_TYPE = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  DATA_ERROR: 'data-error',
+};
+
+const EVENT_FLOW = {
+  CAPTURE: true,
+  BUBBLE: false,
+};
+
+const SUBMIT_BUTTON_TEXT = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикуем...'
+};
+
+
 export {
   EFFECT_TYPE,
   UNIT,
@@ -74,6 +93,9 @@ export {
   MAX_COMMENT_LENGTH,
   MAX_HASHTAGS,
   HASHTAG_PATTERN,
-  RENDER_POSITION
+  RENDER_POSITION,
+  ALERT_SHOW_TIME,
+  ALERT_TYPE,
+  EVENT_FLOW,
+  SUBMIT_BUTTON_TEXT
 };
-
