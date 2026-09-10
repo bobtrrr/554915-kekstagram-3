@@ -7,16 +7,14 @@ const URL = {
 const getData = (onSuccess, onError) => {
   fetch(URL.GET)
     .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        onError();
+      if (!response.ok) {
+        throw new Error();
       }
+
+      return response.json();
     })
     .then((photos) => onSuccess(photos))
-    .catch(() => {
-      onError();
-    });
+    .catch(onError);
 };
 
 const sendData = (onSuccess, onError, body) => {
@@ -28,15 +26,13 @@ const sendData = (onSuccess, onError, body) => {
     },
   )
     .then((response) => {
-      if (response.ok) {
-        onSuccess();
-      } else {
-        onError();
+      if (!response.ok) {
+        throw new Error();
       }
+
+      onSuccess();
     })
-    .catch(() => {
-      onError();
-    });
+    .catch(onError);
 };
 
 

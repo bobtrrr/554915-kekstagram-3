@@ -1,49 +1,39 @@
 import { isEscKeydown } from './util';
 import { ALERT_SHOW_TIME } from './const';
 
-let alert = null;
-let closeButton = null;
-let captureStage = null;
-let selectorElement = null;
-
-const closeAlertHandler = () => {
-  closeButton.removeEventListener('click', closeAlertHandler);
-  document.removeEventListener('keydown', alertEscKeydownHandler, captureStage);
-  document.removeEventListener('click', documentAlertClickHandler);
-
-  alert.remove();
-
-  alert = null;
-  closeButton = null;
-  captureStage = null;
-};
-
-function documentAlertClickHandler (evt) {
-  const alertInner = document.querySelector(`.${selectorElement}__inner`);
-  const target = evt.target.closest(`.${selectorElement}__inner`);
-
-  if (target !== alertInner) {
-    closeAlertHandler();
-  }
-}
-
-function alertEscKeydownHandler (evt) {
-  if (isEscKeydown(evt)) {
-    evt.stopPropagation();
-    closeAlertHandler();
-  }
-
-}
-
 const showAlert = (selector, capture) => {
-  captureStage = capture;
-  selectorElement = selector;
+  const alert = document.querySelector(`#${selector}`).content.querySelector(`.${selector}`).cloneNode(true);
+  const closeButton = alert.querySelector(`.${selector}__button`);
+  const alertInner = alert.querySelector(`.${selector}__inner`);
 
-  alert = document.querySelector(`#${selector}`).content.querySelector(`.${selector}`).cloneNode(true);
-  closeButton = alert.querySelector(`.${selector}__button`);
+  const closeAlertHandler = () => closeAlert();
+
+  function closeAlert () {
+    closeButton.removeEventListener('click', closeAlertHandler);
+    document.removeEventListener('keydown', alertEscKeydownHandler, capture);
+    document.removeEventListener('click', documentAlertClickHandler);
+
+    alert.remove();
+  }
+
+  function documentAlertClickHandler (evt) {
+    const isChild = alertInner.contains(evt.target);
+
+    if (!isChild) {
+      closeAlert();
+    }
+  }
+
+  function alertEscKeydownHandler (evt) {
+    if (isEscKeydown(evt)) {
+      evt.stopPropagation();
+      closeAlert();
+    }
+  }
+
 
   closeButton.addEventListener('click', closeAlertHandler);
-  document.addEventListener('keydown', alertEscKeydownHandler, captureStage);
+  document.addEventListener('keydown', alertEscKeydownHandler, capture);
   document.addEventListener('click', documentAlertClickHandler);
 
   document.body.append(alert);

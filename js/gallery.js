@@ -3,6 +3,7 @@ import { openModal } from './full-photo.js';
 import { getData } from './api.js';
 import { showErrorAlert } from './alert.js';
 import { ALERT_TYPE } from './const.js';
+import { initSort } from './sort.js';
 
 const photoList = document.querySelector('.pictures');
 
@@ -13,6 +14,7 @@ getData(
   (data) => {
     cards = data;
     renderPhotos(cards);
+    initSort(cards);
   },
   () => showErrorAlert(ALERT_TYPE.DATA_ERROR)
 );
