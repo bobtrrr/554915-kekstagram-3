@@ -28,7 +28,7 @@ const settings = {
 
 const disableSubmitButton = () => {
   submitButton.setAttribute('disabled', 'disabled');
-  submitButton.textContent = SUBMIT_BUTTON_TEXT.IDLE;
+  submitButton.textContent = SUBMIT_BUTTON_TEXT.SENDING;
 };
 
 const enableSubmitButton = () => {
