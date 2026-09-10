@@ -1,7 +1,7 @@
 
 const URL = {
   GET: 'https://32.javascript.htmlacademy.pro/kekstagram/data',
-  POST: 'https://32.javascript.htmlacademy.pro/kekstagram',
+  POST: 'https://32.javascript.htmlacademy.pro/kekstagram/',
 };
 
 const getData = (onSuccess, onError) => {

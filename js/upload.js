@@ -1,14 +1,20 @@
 const uploadInputFile = document.querySelector('.img-upload__input');
 const uploadPreviewImage = document.querySelector('.img-upload__preview img');
+const thumbnails = document.querySelectorAll('.effects__preview');
 
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'avif', 'webp'];
 
+const getUrlFile = (file) => URL.createObjectURL(file);
+
 const hasMatchFileFormat = (format) => FILE_TYPES.some((it) => format.endsWith(it));
-const updatePreviewImage = (src) => (uploadPreviewImage.src = URL.createObjectURL(src));
+const updatePreviewImage = (file) => (uploadPreviewImage.src = getUrlFile(file));
 const resetUploadFile = () => {
   uploadInputFile.value = '';
-  uploadPreviewImage.src = '';
+  // uploadPreviewImage.src = '';
 };
+
+const updateThumbnailImage = (thumbnail, file) => (thumbnail.style.backgroundImage = `url(${getUrlFile(file)})`);
+const updateThumbnails = (file) => thumbnails.forEach((thumbnail) => updateThumbnailImage(thumbnail, file));
 
 const getFileName = (file) => file.name.toLowerCase();
 const getFile = () => uploadInputFile.files[0];
@@ -19,6 +25,7 @@ const initUploadFile = () => {
 
   if (hasMatchFileFormat(fileName)) {
     updatePreviewImage(file);
+    updateThumbnails(file);
   }
 };
 
