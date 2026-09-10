@@ -88,21 +88,13 @@ const uploadFormSubmit = (evt, onSuccess) => {
         onSuccess();
         showAlert(ALERT_TYPE.SUCCESS, EVENT_FLOW.BUBBLE);
         enableSubmitButton();
-        // eslint-disable-next-line no-console
-        console.log('Форма успешно отправлена!');
       },
       () => {
         enableSubmitButton();
         showAlert(ALERT_TYPE.ERROR, EVENT_FLOW.CAPTURE);
-        // eslint-disable-next-line no-console
-        console.log('Форма не отправлена..');
       },
       getFormData(evt)
     );
-
-  } else {
-    // eslint-disable-next-line no-console
-    console.log('Ошибка валидации..');
   }
 };
 
