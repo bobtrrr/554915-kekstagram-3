@@ -1,10 +1,21 @@
-import {createCards} from './data.js';
 import { renderPhotos } from './photos.js';
 import { openModal } from './full-photo.js';
+import { getData } from './api.js';
+import { showErrorAlert } from './alert.js';
+import { ALERT_TYPE } from './const.js';
 
 const photoList = document.querySelector('.pictures');
 
-const cards = createCards();
+
+let cards = [];
+
+getData(
+  (data) => {
+    cards = data;
+    renderPhotos(cards);
+  },
+  () => showErrorAlert(ALERT_TYPE.DATA_ERROR)
+);
 
 const openModalClickHandler = (evt) => {
   const photoCard = evt.target.closest('.picture');
@@ -13,7 +24,7 @@ const openModalClickHandler = (evt) => {
     return;
   }
 
-  const filteredPhoto = cards.find((card) => card.id === photoCard.id);
+  const filteredPhoto = cards.find((card) => card.id === Number(photoCard.id));
 
   openModal(filteredPhoto);
 };
@@ -21,4 +32,3 @@ const openModalClickHandler = (evt) => {
 photoList.addEventListener('click', openModalClickHandler);
 
 
-renderPhotos(cards);

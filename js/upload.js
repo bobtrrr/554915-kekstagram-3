@@ -1,49 +1,25 @@
-import { isEscKeydown } from './util';
-import { resetScale, initScale } from './scale.js';
-import { initEffects, resetEffects } from './effect.js';
-import { resetValidation } from './validate.js';
+const uploadInputFile = document.querySelector('.img-upload__input');
+const uploadPreviewImage = document.querySelector('.img-upload__preview img');
 
-const uploadForm = document.querySelector('.img-upload__form');
-const openUploadButton = uploadForm.querySelector('.img-upload__input');
-const closeUploadButton = uploadForm.querySelector('.img-upload__cancel');
-const uploadPopup = uploadForm.querySelector('.img-upload__overlay');
-const commentInput = uploadForm.querySelector('.text__description');
-const hashtagInput = uploadForm.querySelector('.text__hashtags');
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'avif', 'webp'];
 
-const clearUploadInput = () => (openUploadButton.value = '');
-
-const openPopup = () => {
-  uploadPopup.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-
-  initScale();
-  initEffects();
-
-  document.addEventListener('keydown', documentEscKeydownHandler);
+const hasMatchFileFormat = (format) => FILE_TYPES.some((it) => format.endsWith(it));
+const updatePreviewImage = (src) => (uploadPreviewImage.src = URL.createObjectURL(src));
+const resetUploadFile = () => {
+  uploadInputFile.value = '';
+  uploadPreviewImage.src = '';
 };
 
-const isElementFocused = (element) => document.activeElement === element;
-const isTextFieldFocused = () => isElementFocused(hashtagInput) || isElementFocused(commentInput);
+const getFileName = (file) => file.name.toLowerCase();
+const getFile = () => uploadInputFile.files[0];
 
-const closePopup = () => {
-  uploadPopup.classList.add('hidden');
-  document.body.classList.remove('modal-open');
+const initUploadFile = () => {
+  const file = getFile();
+  const fileName = getFileName(file);
 
-  clearUploadInput();
-  resetScale();
-  resetEffects();
-  resetValidation();
-
-  document.removeEventListener('keydown', documentEscKeydownHandler);
-};
-
-function documentEscKeydownHandler (evt) {
-  if (isEscKeydown(evt) && !isTextFieldFocused()) {
-    closePopup();
+  if (hasMatchFileFormat(fileName)) {
+    updatePreviewImage(file);
   }
-}
+};
 
-openUploadButton.addEventListener('change', openPopup);
-closeUploadButton.addEventListener('click', closePopup);
-
-
+export {initUploadFile, resetUploadFile};
