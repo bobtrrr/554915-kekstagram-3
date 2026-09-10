@@ -66,6 +66,7 @@ const resetEffects = () => {
   currentEffect = EFFECT_TYPE.NONE;
   updatePreviewImageStyles(EFFECT_TYPE.NONE);
   sliderElement.noUiSlider.destroy();
+  effectsList.querySelector('#effect-none').checked = true;
   effectsList.removeEventListener('change', effectsListChangeHandler);
 };
 
