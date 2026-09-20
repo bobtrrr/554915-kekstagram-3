@@ -4,6 +4,7 @@ const photoItemTemplate = document.querySelector('#picture')
   .querySelector('.picture');
 
 const getCommentsCount = (comments) => comments.length;
+
 const removePhotos = () => {
   const photos = document.querySelectorAll('.picture');
 

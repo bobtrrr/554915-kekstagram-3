@@ -1,5 +1,3 @@
-import '../vendor/nouislider/nouislider';
-
 const scaleContainer = document.querySelector('.img-upload');
 const scaleMinusButton = scaleContainer.querySelector('.scale__control--smaller');
 const scalePlusButton = scaleContainer.querySelector('.scale__control--bigger');
@@ -58,6 +56,5 @@ const initScale = () => {
   scaleMinusButton.addEventListener('click', scaleMinusButtonHandler);
   scalePlusButton.addEventListener('click', scalePlusButtonHandler);
 };
-
 
 export {initScale, resetScale};
