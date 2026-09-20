@@ -1,39 +1,39 @@
+const BASE_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
 
-const URL = {
-  GET: 'https://32.javascript.htmlacademy.pro/kekstagram/data',
-  POST: 'https://32.javascript.htmlacademy.pro/kekstagram/',
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
 };
 
-const getData = (onSuccess, onError) => {
-  fetch(URL.GET)
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+
+const load = (route, method = Method.GET, body = null) =>
+  fetch(`${BASE_URL}${route}`, {method, body})
     .then((response) => {
       if (!response.ok) {
         throw new Error();
       }
 
-      return response.json();
+      return response;
     })
-    .then((photos) => onSuccess(photos))
+    .catch(() => {
+      throw new Error();
+    });
+
+const getData = (onSuccess, onError) => {
+  load(Route.GET_DATA)
+    .then((response) => response.json())
+    .then(onSuccess)
     .catch(onError);
 };
 
 const sendData = (onSuccess, onError, body) => {
-  fetch(
-    URL.POST,
-    {
-      method: 'POST',
-      body: body,
-    },
-  )
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error();
-      }
-
-      onSuccess();
-    })
+  load(Route.SEND_DATA, Method.POST, body)
+    .then(onSuccess)
     .catch(onError);
 };
-
 
 export {getData, sendData};

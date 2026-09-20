@@ -18,7 +18,7 @@ const initForm = () => {
   initUploadFile();
   initScale();
   initEffects();
-
+  initValidation(closeUploadForm);
 };
 
 const resetForm = () => {
@@ -28,33 +28,33 @@ const resetForm = () => {
   resetValidation();
 };
 
-const closePopup = () => {
+function documentEscKeydownHandler (evt) {
+  if (isEscKeydown(evt) && !isTextFieldFocused()) {
+    closeUploadForm();
+  }
+}
+
+function closeUploadForm () {
   uploadPopup.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
   resetForm();
 
-  closeUploadButton.removeEventListener('click', closePopup);
+  closeUploadButton.removeEventListener('click', closeUploadForm);
   document.removeEventListener('keydown', documentEscKeydownHandler);
-};
+}
 
-const openPopup = () => {
+function openUploadForm () {
   uploadPopup.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
   initForm();
-  initValidation(closePopup);
 
-  closeUploadButton.addEventListener('click', closePopup);
+  closeUploadButton.addEventListener('click', closeUploadForm);
   document.addEventListener('keydown', documentEscKeydownHandler);
-};
-
-function documentEscKeydownHandler (evt) {
-  if (isEscKeydown(evt) && !isTextFieldFocused()) {
-    closePopup();
-  }
 }
 
-openUploadButton.addEventListener('change', openPopup);
+
+openUploadButton.addEventListener('change', openUploadForm);
 
 

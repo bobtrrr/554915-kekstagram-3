@@ -1,12 +1,11 @@
 import { renderPhotos } from './photos.js';
-import { openModal } from './full-photo.js';
+import { openFullPhoto } from './full-photo.js';
 import { getData } from './api.js';
 import { showErrorAlert } from './alert.js';
 import { ALERT_TYPE } from './const.js';
 import { initSort } from './sort.js';
 
 const photoList = document.querySelector('.pictures');
-
 
 let cards = [];
 
@@ -28,7 +27,7 @@ const openModalClickHandler = (evt) => {
 
   const filteredPhoto = cards.find((card) => card.id === Number(photoCard.id));
 
-  openModal(filteredPhoto);
+  openFullPhoto(filteredPhoto);
 };
 
 photoList.addEventListener('click', openModalClickHandler);

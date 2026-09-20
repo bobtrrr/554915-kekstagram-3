@@ -2,7 +2,7 @@ import { RENDER_POSITION } from './const';
 import { isEscKeydown } from './util';
 
 const modal = document.querySelector('.big-picture');
-const closeModalButton = modal.querySelector('.big-picture__cancel');
+const closeFullPhotoButton = modal.querySelector('.big-picture__cancel');
 const photoImage = modal.querySelector('.big-picture__img img');
 const photoDescription = modal.querySelector('.social__caption');
 const likesCount = modal.querySelector('.likes-count');
@@ -17,6 +17,8 @@ const COMMENTS_COUNT_PER_STEP = 5;
 let renderedCommentsCount = 0;
 
 let slicedComments = null;
+
+const setComments = (comments) => (slicedComments = comments.slice());
 
 const isShowLoadMoreButton = () => slicedComments.length > COMMENTS_COUNT_PER_STEP;
 const isHideLoadMoreButton = () => renderedCommentsCount >= slicedComments.length;
@@ -50,13 +52,17 @@ const renderComments = (from, to) => {
 
 const clearCommentsList = () => (commentsList.innerHTML = '');
 
+const getNextRenderedCommentsCount = () => Math.min(slicedComments.length, renderedCommentsCount + COMMENTS_COUNT_PER_STEP);
+const resetRenderedCommentsCount = () => (renderedCommentsCount = 0);
+const updateRenderedCommentsCount = () => (renderedCommentsCount = getNextRenderedCommentsCount());
+
 const loadMoreButtonHandler = () => {
-  const nextCommentsCount = Math.min(slicedComments.length, renderedCommentsCount + COMMENTS_COUNT_PER_STEP);
+  const nextCommentsCount = getNextRenderedCommentsCount();
+
+  updateShownCommentsCount(nextCommentsCount);
+
   renderComments(renderedCommentsCount, nextCommentsCount);
-
-  renderedCommentsCount = nextCommentsCount;
-
-  updateShownCommentsCount(renderedCommentsCount);
+  updateRenderedCommentsCount();
 
   if (isHideLoadMoreButton()) {
     hideLoadMoreButton();
@@ -79,16 +85,16 @@ const renderLikesCount = (likes) => {
 };
 
 const initFullPhoto = ({url, likes, description, comments}) => {
-  slicedComments = comments.slice();
+  setComments(comments);
 
-  const nextCommentsCount = Math.min(slicedComments.length, COMMENTS_COUNT_PER_STEP);
+  const nextCommentsCount = getNextRenderedCommentsCount();
 
   renderFullPhoto(url, description);
   renderLikesCount(likes);
   renderCommentsCount(nextCommentsCount);
 
   renderComments(0, nextCommentsCount);
-  renderedCommentsCount = nextCommentsCount;
+  updateRenderedCommentsCount(nextCommentsCount);
 
   loadMoreButton.addEventListener('click', loadMoreButtonHandler);
 
@@ -103,6 +109,7 @@ const resetFullPhoto = () => {
   photoDescription.textContent = '';
   likesCount.textContent = '';
   commentsCountTotal.textContent = '';
+  resetRenderedCommentsCount();
 
   clearCommentsList();
   hideLoadMoreButton();
@@ -110,7 +117,7 @@ const resetFullPhoto = () => {
   loadMoreButton.removeEventListener('click', loadMoreButtonHandler);
 };
 
-const openModal = (photo) => {
+const openFullPhoto = (photo) => {
   modal.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
@@ -119,7 +126,7 @@ const openModal = (photo) => {
   window.addEventListener('keydown', documentKeydownHandler);
 };
 
-const closeModal = () => {
+const closeFullPhoto = () => {
   modal.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
@@ -130,11 +137,11 @@ const closeModal = () => {
 
 function documentKeydownHandler (evt) {
   if (isEscKeydown(evt)) {
-    closeModal();
+    closeFullPhoto();
   }
 }
 
-closeModalButton.addEventListener('click', closeModal);
+closeFullPhotoButton.addEventListener('click', closeFullPhoto);
 
-export {openModal};
+export {openFullPhoto};
 

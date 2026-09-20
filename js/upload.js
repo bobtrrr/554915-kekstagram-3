@@ -8,10 +8,7 @@ const getUrlFile = (file) => URL.createObjectURL(file);
 
 const hasMatchFileFormat = (format) => FILE_TYPES.some((it) => format.endsWith(it));
 const updatePreviewImage = (file) => (uploadPreviewImage.src = getUrlFile(file));
-const resetUploadFile = () => {
-  uploadInputFile.value = '';
-  // uploadPreviewImage.src = '';
-};
+const resetUploadFile = () => (uploadInputFile.value = '');
 
 const updateThumbnailImage = (thumbnail, file) => (thumbnail.style.backgroundImage = `url(${getUrlFile(file)})`);
 const updateThumbnails = (file) => thumbnails.forEach((thumbnail) => updateThumbnailImage(thumbnail, file));
