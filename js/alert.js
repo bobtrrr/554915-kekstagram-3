@@ -6,17 +6,17 @@ const showAlert = (selector, capture) => {
   const closeButton = alert.querySelector(`.${selector}__button`);
   const alertInner = alert.querySelector(`.${selector}__inner`);
 
-  const closeAlertHandler = () => closeAlert();
+  const closeAlertClickHandler = () => closeAlert();
 
   function closeAlert () {
-    closeButton.removeEventListener('click', closeAlertHandler);
-    document.removeEventListener('keydown', alertEscKeydownHandler, capture);
-    document.removeEventListener('click', documentAlertClickHandler);
+    closeButton.removeEventListener('click', closeAlertClickHandler);
+    document.removeEventListener('keydown', documentEscKeydownHandler, capture);
+    document.removeEventListener('click', documentClickHandler);
 
     alert.remove();
   }
 
-  function documentAlertClickHandler (evt) {
+  function documentClickHandler (evt) {
     const isChild = alertInner.contains(evt.target);
 
     if (!isChild) {
@@ -24,7 +24,7 @@ const showAlert = (selector, capture) => {
     }
   }
 
-  function alertEscKeydownHandler (evt) {
+  function documentEscKeydownHandler (evt) {
     if (isEscKeydown(evt)) {
       evt.stopPropagation();
       closeAlert();
@@ -32,9 +32,9 @@ const showAlert = (selector, capture) => {
   }
 
 
-  closeButton.addEventListener('click', closeAlertHandler);
-  document.addEventListener('keydown', alertEscKeydownHandler, capture);
-  document.addEventListener('click', documentAlertClickHandler);
+  closeButton.addEventListener('click', closeAlertClickHandler);
+  document.addEventListener('keydown', documentEscKeydownHandler, capture);
+  document.addEventListener('click', documentClickHandler);
 
   document.body.append(alert);
 };

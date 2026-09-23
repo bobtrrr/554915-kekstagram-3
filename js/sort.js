@@ -1,11 +1,11 @@
 import { renderPhotos, removePhotos } from './photos';
 import { debounce } from './util';
 
-const sort = document.querySelector('.img-filters');
-const sortForm = sort.querySelector('.img-filters__form');
-
 const MAX_PHOTOS_COUNT = 10;
 const RERENDER_DELAY = 500;
+
+const sort = document.querySelector('.img-filters');
+const sortForm = sort.querySelector('.img-filters__form');
 
 const compareComments = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
 const shufflePhotos = () => Math.random() - 0.5;
@@ -22,6 +22,7 @@ const debouncedRender = debounce((photos) => {
 }, RERENDER_DELAY);
 
 const isButtonClicked = (element) => element.closest('.img-filters__button');
+const isActiveButton = (element) => element.classList.contains('img-filters__button--active');
 
 const resetActiveButton = () => sortForm.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
 const setActiveButton = (element) => element.classList.add('img-filters__button--active');
@@ -32,7 +33,7 @@ const initSort = (photos) => {
   sortForm.addEventListener('click', (evt) => {
     const target = evt.target;
 
-    if (!isButtonClicked(target)) {
+    if (!isButtonClicked(target) || isActiveButton(target)) {
       return;
     }
 

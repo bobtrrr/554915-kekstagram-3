@@ -1,15 +1,15 @@
-const scaleContainer = document.querySelector('.img-upload');
-const scaleMinusButton = scaleContainer.querySelector('.scale__control--smaller');
-const scalePlusButton = scaleContainer.querySelector('.scale__control--bigger');
-const scaleInput = scaleContainer.querySelector('.scale__control--value');
-const scaleImage = scaleContainer.querySelector('.img-upload__preview img');
-
 const SCALE_PARAMS = {
   MAX: 100,
   MIN: 25,
   DEFAULT: 100,
   STEP: 25,
 };
+
+const scaleContainer = document.querySelector('.img-upload');
+const scaleMinusButton = scaleContainer.querySelector('.scale__control--smaller');
+const scalePlusButton = scaleContainer.querySelector('.scale__control--bigger');
+const scaleInput = scaleContainer.querySelector('.scale__control--value');
+const scaleImage = scaleContainer.querySelector('.img-upload__preview img');
 
 let currentScale = SCALE_PARAMS.DEFAULT;
 
@@ -18,7 +18,7 @@ const normalizeScale = (value) => value / 100;
 const updateInputScale = (scale) => (scaleInput.value = `${scale}%`);
 const updateImageScale = (scale) => (scaleImage.setAttribute('style', `transform: scale(${normalizeScale(scale)})`));
 
-const scaleMinusButtonHandler = () => {
+const scaleMinusButtonClickHandler = () => {
   if (currentScale > SCALE_PARAMS.MIN) {
     currentScale -= SCALE_PARAMS.STEP;
   }
@@ -27,7 +27,7 @@ const scaleMinusButtonHandler = () => {
   updateImageScale(currentScale);
 };
 
-const scalePlusButtonHandler = () => {
+const scalePlusButtonClickHandler = () => {
   if (currentScale < SCALE_PARAMS.MAX) {
     currentScale += SCALE_PARAMS.STEP;
   }
@@ -46,15 +46,15 @@ const setDefaultParams = () => {
 const resetScale = () => {
   setDefaultParams();
 
-  scaleMinusButton.removeEventListener('click', scaleMinusButtonHandler);
-  scalePlusButton.removeEventListener('click', scalePlusButtonHandler);
+  scaleMinusButton.removeEventListener('click', scaleMinusButtonClickHandler);
+  scalePlusButton.removeEventListener('click', scalePlusButtonClickHandler);
 };
 
 const initScale = () => {
   setDefaultParams();
 
-  scaleMinusButton.addEventListener('click', scaleMinusButtonHandler);
-  scalePlusButton.addEventListener('click', scalePlusButtonHandler);
+  scaleMinusButton.addEventListener('click', scaleMinusButtonClickHandler);
+  scalePlusButton.addEventListener('click', scalePlusButtonClickHandler);
 };
 
 export {initScale, resetScale};
