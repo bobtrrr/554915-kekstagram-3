@@ -51,7 +51,7 @@ const validateHashtag = (value) => {
   return hashtags.every((hashtag) => HASHTAG_PATTERN.test(hashtag));
 };
 
-const validatehashtagCount = (value) => {
+const validateHashtagCount = (value) => {
   const hashtags = getHashtags(value);
 
   return hashtags.length <= MAX_HASHTAGS;
@@ -72,7 +72,7 @@ const pristine = new Pristine(uploadForm, settings, VALIDATOR_MODE.CHANGE);
 
 pristine.addValidator(commentInput, validateComment, getCommentErrorMessage);
 pristine.addValidator(hashtagInput, validateHashtag, getHashtagErrorMessage, VALIDATOR_PRIORITY.LOW, VALIDATOR_HALT_BEHAVIOR.CONTINUE);
-pristine.addValidator(hashtagInput, validatehashtagCount, getHashtagCountErrorMessage, VALIDATOR_PRIORITY.HIGH, VALIDATOR_HALT_BEHAVIOR.STOP);
+pristine.addValidator(hashtagInput, validateHashtagCount, getHashtagCountErrorMessage, VALIDATOR_PRIORITY.HIGH, VALIDATOR_HALT_BEHAVIOR.STOP);
 pristine.addValidator(hashtagInput, validateHashtagUnique, getHashtagUniqueErrorMessage, VALIDATOR_PRIORITY.LOW, VALIDATOR_HALT_BEHAVIOR.CONTINUE);
 
 const uploadFormSubmit = (evt, onSuccess) => {

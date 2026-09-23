@@ -1,8 +1,8 @@
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'avif', 'webp'];
+
 const uploadInputFile = document.querySelector('.img-upload__input');
 const uploadPreviewImage = document.querySelector('.img-upload__preview img');
 const thumbnails = document.querySelectorAll('.effects__preview');
-
-const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'avif', 'webp'];
 
 const getUrlFile = (file) => URL.createObjectURL(file);
 

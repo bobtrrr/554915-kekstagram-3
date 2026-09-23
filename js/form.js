@@ -28,6 +28,8 @@ const resetForm = () => {
   resetValidation();
 };
 
+const closeUploadFormClickHandler = () => closeUploadForm();
+
 function documentEscKeydownHandler (evt) {
   if (isEscKeydown(evt) && !isTextFieldFocused()) {
     closeUploadForm();
@@ -40,7 +42,7 @@ function closeUploadForm () {
 
   resetForm();
 
-  closeUploadButton.removeEventListener('click', closeUploadForm);
+  closeUploadButton.removeEventListener('click', closeUploadFormClickHandler);
   document.removeEventListener('keydown', documentEscKeydownHandler);
 }
 
@@ -50,7 +52,7 @@ function openUploadForm () {
 
   initForm();
 
-  closeUploadButton.addEventListener('click', closeUploadForm);
+  closeUploadButton.addEventListener('click', closeUploadFormClickHandler);
   document.addEventListener('keydown', documentEscKeydownHandler);
 }
 

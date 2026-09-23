@@ -1,6 +1,8 @@
 import { RENDER_POSITION } from './const';
 import { isEscKeydown } from './util';
 
+const COMMENTS_COUNT_PER_STEP = 5;
+
 const modal = document.querySelector('.big-picture');
 const closeFullPhotoButton = modal.querySelector('.big-picture__cancel');
 const photoImage = modal.querySelector('.big-picture__img img');
@@ -13,7 +15,6 @@ const commentsCountShown = commentsCount.querySelector('.social__comment-shown-c
 const commentsCountTotal = commentsCount.querySelector('.social__comment-total-count');
 const loadMoreButton = modal.querySelector('.comments-loader');
 
-const COMMENTS_COUNT_PER_STEP = 5;
 let renderedCommentsCount = 0;
 
 let slicedComments = null;
@@ -56,7 +57,7 @@ const getNextRenderedCommentsCount = () => Math.min(slicedComments.length, rende
 const resetRenderedCommentsCount = () => (renderedCommentsCount = 0);
 const updateRenderedCommentsCount = () => (renderedCommentsCount = getNextRenderedCommentsCount());
 
-const loadMoreButtonHandler = () => {
+const loadMoreButtonClickHandler = () => {
   const nextCommentsCount = getNextRenderedCommentsCount();
 
   updateShownCommentsCount(nextCommentsCount);
@@ -94,9 +95,9 @@ const initFullPhoto = ({url, likes, description, comments}) => {
   renderCommentsCount(nextCommentsCount);
 
   renderComments(0, nextCommentsCount);
-  updateRenderedCommentsCount(nextCommentsCount);
+  updateRenderedCommentsCount();
 
-  loadMoreButton.addEventListener('click', loadMoreButtonHandler);
+  loadMoreButton.addEventListener('click', loadMoreButtonClickHandler);
 
   if (isShowLoadMoreButton()) {
     showLoadMoreButton();
@@ -114,7 +115,7 @@ const resetFullPhoto = () => {
   clearCommentsList();
   hideLoadMoreButton();
 
-  loadMoreButton.removeEventListener('click', loadMoreButtonHandler);
+  loadMoreButton.removeEventListener('click', loadMoreButtonClickHandler);
 };
 
 const openFullPhoto = (photo) => {
@@ -123,7 +124,7 @@ const openFullPhoto = (photo) => {
 
   initFullPhoto(photo);
 
-  window.addEventListener('keydown', documentKeydownHandler);
+  document.addEventListener('keydown', documentEscKeydownHandler);
 };
 
 const closeFullPhoto = () => {
@@ -132,10 +133,10 @@ const closeFullPhoto = () => {
 
   resetFullPhoto();
 
-  window.removeEventListener('keydown', documentKeydownHandler);
+  document.removeEventListener('keydown', documentEscKeydownHandler);
 };
 
-function documentKeydownHandler (evt) {
+function documentEscKeydownHandler (evt) {
   if (isEscKeydown(evt)) {
     closeFullPhoto();
   }
