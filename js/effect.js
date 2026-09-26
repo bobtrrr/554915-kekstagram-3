@@ -10,12 +10,7 @@ const previewImage = effectsContainer.querySelector('.img-upload__preview img');
 let currentEffect = EFFECT_TYPE.NONE;
 
 const effectOptions = {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 100,
-  step: 1,
+  ...EFFECT_OPTIONS[currentEffect].options,
   connect: 'lower',
   format: {
     to: (value) => Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1),
@@ -37,14 +32,7 @@ const showSliderContainer = () => sliderContainer.classList.remove('hidden');
 const hideSliderContainer = () => sliderContainer.classList.add('hidden');
 
 const updateSliderOptions = (config) => {
-  sliderControl.noUiSlider.updateOptions({
-    range: {
-      min: config.options.min,
-      max: config.options.max,
-    },
-    step: config.options.step,
-    start: config.options.start,
-  });
+  sliderControl.noUiSlider.updateOptions(config.options);
 };
 
 const effectsListChangeHandler = (evt) => {
