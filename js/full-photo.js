@@ -1,4 +1,3 @@
-import { RENDER_POSITION } from './const';
 import { isEscKeydown } from './util';
 
 const COMMENTS_COUNT_PER_STEP = 5;
@@ -35,25 +34,39 @@ const updateShownCommentsCount = (count) => {
   commentsCountShown.textContent = count;
 };
 
-const getCommentTemplate = ({avatar, message, name}) => (
-  `<li class="social__comment">
-    <img
-      class="social__picture"
-      src="${avatar}"
-      alt="${name}"
-      width="35" height="35">
-    <p class="social__text">${message}</p>
-  </li>`
-);
+const createElement = (tagName, className, text) => {
+  const element = document.createElement(tagName);
+  element.classList.add(className);
+
+  if (text) {
+    element.textContent = text;
+  }
+
+  return element;
+};
+
+const createComment = ({ avatar, message, name }) => {
+  const comment = createElement('li', 'social__comment');
+
+  const image = createElement('img', 'social__picture');
+  image.src = avatar;
+  image.alt = name;
+  image.width = 35;
+  image.height = 35;
+
+  const text = createElement('p', 'social__text', message);
+
+  comment.append(image, text);
+
+  return comment;
+};
 
 const renderComments = (from, to) => {
-  const commentItems =
-    slicedComments
-      .slice(from, to)
-      .map((comment) => getCommentTemplate(comment))
-      .join('');
+  const commentItems = slicedComments
+    .slice(from, to)
+    .map((comment) => createComment(comment));
 
-  commentsList.insertAdjacentHTML(RENDER_POSITION.BEFOREEND, commentItems);
+  commentsList.append(...commentItems);
 };
 
 const clearCommentsList = () => {

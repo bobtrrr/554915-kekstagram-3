@@ -62,10 +62,6 @@ const EFFECT_OPTIONS = {
   }
 };
 
-const RENDER_POSITION = {
-  BEFOREEND: 'beforeend',
-};
-
 const ALERT_TYPE = {
   SUCCESS: 'success',
   ERROR: 'error',
