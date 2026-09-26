@@ -20,7 +20,7 @@ const updateInputScale = (scale) => {
 };
 
 const updateImageScale = (scale) => {
-  scaleImage.setAttribute('style', `transform: scale(${normalizeScale(scale)})`);
+  scaleImage.style.transform = `scale(${normalizeScale(scale)})`;
 };
 
 const scaleMinusButtonClickHandler = () => {
