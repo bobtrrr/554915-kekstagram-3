@@ -29,7 +29,7 @@ const UNIT = {
   NONE: '',
 };
 
-const EFFECT_CONFIGS = {
+const EFFECT_OPTIONS = {
   none: {
     filter: 'none',
     unit: UNIT.NONE,
@@ -86,7 +86,7 @@ const SUBMIT_BUTTON_TEXT = {
 export {
   EFFECT_TYPE,
   UNIT,
-  EFFECT_CONFIGS,
+  EFFECT_OPTIONS,
   VALIDATOR_MODE,
   VALIDATOR_PRIORITY,
   VALIDATOR_HALT_BEHAVIOR,
