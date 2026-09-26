@@ -19,7 +19,9 @@ let renderedCommentsCount = 0;
 
 let slicedComments = null;
 
-const setComments = (comments) => (slicedComments = comments.slice());
+const setComments = (comments) => {
+  slicedComments = comments.slice();
+};
 
 const isShowLoadMoreButton = () => slicedComments.length > COMMENTS_COUNT_PER_STEP;
 const isHideLoadMoreButton = () => renderedCommentsCount >= slicedComments.length;
@@ -28,7 +30,10 @@ const hideLoadMoreButton = () => loadMoreButton.classList.add('hidden');
 const showLoadMoreButton = () => loadMoreButton.classList.remove('hidden');
 
 const getCommentsCount = () => slicedComments.length;
-const updateShownCommentsCount = (count) => (commentsCountShown.textContent = count);
+
+const updateShownCommentsCount = (count) => {
+  commentsCountShown.textContent = count;
+};
 
 const getCommentTemplate = ({avatar, message, name}) => (
   `<li class="social__comment">
@@ -51,11 +56,19 @@ const renderComments = (from, to) => {
   commentsList.insertAdjacentHTML(RENDER_POSITION.BEFOREEND, commentItems);
 };
 
-const clearCommentsList = () => (commentsList.innerHTML = '');
+const clearCommentsList = () => {
+  commentsList.innerHTML = '';
+};
 
 const getNextRenderedCommentsCount = () => Math.min(slicedComments.length, renderedCommentsCount + COMMENTS_COUNT_PER_STEP);
-const resetRenderedCommentsCount = () => (renderedCommentsCount = 0);
-const updateRenderedCommentsCount = () => (renderedCommentsCount = getNextRenderedCommentsCount());
+
+const resetRenderedCommentsCount = () => {
+  renderedCommentsCount = 0;
+};
+
+const updateRenderedCommentsCount = () => {
+  renderedCommentsCount = getNextRenderedCommentsCount();
+};
 
 const loadMoreButtonClickHandler = () => {
   const nextCommentsCount = getNextRenderedCommentsCount();

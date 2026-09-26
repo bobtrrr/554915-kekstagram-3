@@ -24,8 +24,14 @@ const effectOptions = {
 };
 
 const getSliderValue = () => sliderControl.noUiSlider.get();
-const updateInputValue = (value) => (sliderInput.value = value);
-const updatePreviewImageStyles = (value) => (previewImage.style.filter = value);
+
+const updateInputValue = (value) => {
+  sliderInput.value = value;
+};
+
+const updatePreviewImageStyles = (value) => {
+  previewImage.style.filter = value;
+};
 
 const showSliderContainer = () => sliderContainer.classList.remove('hidden');
 const hideSliderContainer = () => sliderContainer.classList.add('hidden');
